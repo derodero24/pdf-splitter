@@ -1,0 +1,70 @@
+<!doctype html>
+<html>
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="icon" href="{{url_for('static', filename='dero_256.ico')}}">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+    <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='style.css')}}">
+
+    <link rel="manifest" href="{{url_for('static', filename='manifest.json')}}">
+
+
+    <!--{* Service Worker *}-->
+    <script>
+    if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register("{{url_for('static', filename='serviceWorker.js')}}").then(registration => {
+            // 登録成功
+            console.log('ServiceWorker registration successful with scope: ', registration.scope);
+        }).catch(function(err) {
+            // 登録失敗 :(
+            console.log('ServiceWorker registration failed: ', err);
+        });
+    }
+    </script>
+    <!--{* Service Worker *}-->
+
+    <title>PDF splitter</title>
+</head>
+
+<body class="text-center">
+
+    <form class="form-info" action="{{url_for('split')}}" method="post" enctype="multipart/form-data">
+
+        <img class="mb-1" src="{{url_for('static', filename='dero.svg')}}" alt="" width="72" height="72">
+        <h1 class="mb-0"> PDF splitter </h1>
+        <div class="mb-4"> Max file size: 5MB </div>
+
+        <div class="form-group">
+            <input type="file" class="form-control-file" id="exampleFormControlFile1" name="uploadFile" required>
+        </div>
+
+        <div class="checkbox mb-3">
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="split_type" id="split_type1" value="horizontal" checked="checked">
+                <label class="form-check-label" for="split_type1">Horizontal</label>
+            </div>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="split_type" id="split_type2" value="vertical">
+                <label class="form-check-label" for="split_type2">Vertical</label>
+            </div>
+        </div>
+
+        <button class="btn-lg btn-primary btn-block" type="submit">Split PDF</button>
+
+        <p class="mt-5 mb-3 text-muted">&copy; 2019 derodero</p>
+
+    </form>
+
+    <!-- Optional JavaScript -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+</body>
+
+</html>
