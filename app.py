@@ -1,12 +1,13 @@
 import os
 
-from flask import Flask, make_response, render_template, request, url_for
+import werkzeug
+from flask import (Flask, jsonify, make_response, render_template, request,
+                   url_for)
 
 from splitter import splitter
 
 app = Flask(__name__)
 app.config.from_object('config')
-logger = app.logger
 
 
 @app.route('/')
@@ -22,7 +23,6 @@ if __name__ == '__main__':
 def split():
     if 'uploadFile' not in request.files:
         message = 'uploadFile is required.'
-        logger.debug(message)
         return make_response(message, 400)
 
     pdf_file = request.files['uploadFile']
@@ -30,7 +30,6 @@ def split():
 
     if ext not in ('.pdf', '.PDF'):
         message = 'File extention must be ".pdf" or ".PDF"'
-        logger.debug(f'{ext}: {message}')
         return make_response(message, 400)
 
     output = splitter(pdf_file.stream, request.form['split_type'])
@@ -42,3 +41,12 @@ def split():
     response.mimetype = 'application/pdf'
 
     return response
+
+
+@app.errorhandler(400)
+@app.errorhandler(404)
+@app.errorhandler(500)
+@app.errorhandler(werkzeug.exceptions.RequestEntityTooLarge)
+def error_handler(error):
+    response = jsonify({'result': error.code, 'message': error.name})
+    return make_response(response, error.code)
