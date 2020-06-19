@@ -1,5 +1,6 @@
 import os
 import traceback
+from urllib.parse import quote
 
 from flask import Flask, make_response, render_template, request, url_for
 
@@ -16,31 +17,26 @@ def index():
 
 @app.route('/split', methods=['POST'])
 def split():
-    try:
-        if 'uploadFile' not in request.files:
-            message = 'uploadFile is required.'
-            return make_response(message, 400)
+    if 'uploadFile' not in request.files:
+        message = 'uploadFile is required.'
+        return make_response(message, 400)
 
-        print(request.files['uploadFile'].filename)
-        pdf_file = request.files['uploadFile']
-        basename, ext = os.path.splitext(pdf_file.filename)
+    pdf_file = request.files['uploadFile']
+    basename, ext = os.path.splitext(pdf_file.filename)
 
-        if ext not in ('.pdf', '.PDF'):
-            message = 'File extention must be ".pdf" or ".PDF"'
-            return make_response(message, 400)
+    if ext not in ('.pdf', '.PDF'):
+        message = 'File extention must be ".pdf" or ".PDF"'
+        return make_response(message, 400)
 
-        output = splitter(pdf_file.stream, request.form['split_type'])
+    output = splitter(pdf_file.stream, request.form['split_type'])
 
-        response = make_response()
-        response.data = output
-        download_name = f'{basename}_split.pdf'
-        response.headers['Content-Disposition'] = f'attachment; filename={download_name}'
-        response.mimetype = 'application/pdf'
+    response = make_response()
+    response.data = output
+    download_name = quote(f'{basename}_split.pdf')
+    response.headers['Content-Disposition'] = f'attachment; filename={download_name}'
+    response.mimetype = 'application/pdf'
 
-        return response
-
-    except Exception:
-        print(traceback.format_exc())
+    return response
 
 
 if __name__ == '__main__':
