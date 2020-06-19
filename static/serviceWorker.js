@@ -1,4 +1,4 @@
-const cachePrefix = 'pdf_splitter'
+const cachePrefix = 'pdf-splitter'
 const version = '0.0.1'
 const cacheName = `${cachePrefix}-${version}`
 

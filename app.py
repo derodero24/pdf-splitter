@@ -11,7 +11,6 @@ app.config.from_object('config')
 
 @app.route('/')
 def index():
-    print('yoooooooo')
     return render_template('index.html')
 
 
@@ -22,6 +21,7 @@ def split():
             message = 'uploadFile is required.'
             return make_response(message, 400)
 
+        print(request.files['uploadFile'].filename)
         pdf_file = request.files['uploadFile']
         basename, ext = os.path.splitext(pdf_file.filename)
 
