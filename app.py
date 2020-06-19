@@ -1,9 +1,7 @@
 import os
 import traceback
 
-import werkzeug
-from flask import (Flask, jsonify, make_response, render_template, request,
-                   url_for)
+from flask import Flask, make_response, render_template, request, url_for
 
 from splitter import splitter
 
@@ -13,11 +11,8 @@ app.config.from_object('config')
 
 @app.route('/')
 def index():
+    print('yoooooooo')
     return render_template('index.html')
-
-
-if __name__ == '__main__':
-    app.run(host="0.0.0.0", port=int(os.environ.get("PORT", 5000)))
 
 
 @app.route('/split', methods=['POST'])
@@ -48,10 +43,5 @@ def split():
         print(traceback.format_exc())
 
 
-@app.errorhandler(400)
-@app.errorhandler(404)
-@app.errorhandler(500)
-@app.errorhandler(werkzeug.exceptions.RequestEntityTooLarge)
-def error_handler(error):
-    response = jsonify({'result': error.code, 'message': error.name})
-    return make_response(response, error.code)
+if __name__ == '__main__':
+    app.run(host="0.0.0.0", port=int(os.environ.get("PORT", 5000)))
