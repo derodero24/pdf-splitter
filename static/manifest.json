@@ -1,0 +1,20 @@
+{
+  "short_name": "PDFsplitter",
+  "name": "PDF splitter",
+  "icons": [
+    {
+      "src": "./dero_192.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    },
+    {
+      "src": "./dero_512.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    }
+  ],
+  "start_url": "./pdf_splitter",
+  "background_color": "#000000",
+  "display": "standalone",
+  "theme_color": "#f5f5f5"
+}
