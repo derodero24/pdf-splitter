@@ -1,5 +1,4 @@
 import os
-import traceback
 from urllib.parse import quote
 
 from flask import Flask, make_response, render_template, request, url_for
